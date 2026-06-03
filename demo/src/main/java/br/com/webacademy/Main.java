@@ -35,6 +35,8 @@ public class Main {
 
     }
 
+    //salvar produto
+
     private static void salvarProduto(){
         Scanner sc = new Scanner(System.in);
         System.out.println("\n###Criar Novo Produto###");
@@ -54,6 +56,9 @@ public class Main {
         }
         sc.close();
     }
+
+    //busca por ID do produto
+
     private static void buscarprodutoporID: {
     Scanner sc = new Scanner(System.in)
     System.out.println("\n###Buscar produto por ID###");
@@ -73,6 +78,9 @@ public class Main {
     }
     sc.close();
     }
+    
+    //Atulizar produto no codigo
+
     private static void atualizarProduto(){
         Scanner sc = new Scanner(System.in);
         System.out.println("\n### Atualzar Produto ###");
@@ -104,5 +112,29 @@ public class Main {
             System.out.println(e.getMessage());
         }   
     sc.close();  
+    }
+
+    //excluir produto
+   
+    private static void excluirProduto(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n### Exclir Produto ###");
+        System.out.println("Digit o ID do produto que deseja exlcuir: ");
+        Long id = Long.parseLong(sc.nextLine());
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        try {
+            Produto produtoExistente = ProdutoDAO.buscarPorId(id);
+            if (produtoExistente != null) {
+                produtoDAO.excluir(produtoExistente.id());
+                System.out.println("Produto excluido com sucesso!");
+
+            } else {
+                System.out.println("Produto não encontrada");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage())
+        }
+
+    }
     
 }
