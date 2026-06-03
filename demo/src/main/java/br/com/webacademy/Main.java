@@ -41,9 +41,9 @@ public class Main {
         System.out.println("Nome:");
         String nome = sc.next();
         System.out.println("Quantidade: ");
-        int Quantidade = Integer.parseInt(sc.nextline());
+        int Quantidade = Integer.parseInt(sc.nextLine());
         System.out.println("Valor:");
-        double valor = Double.parseDouble(sc.nextline());
+        double valor = Double.parseDouble(sc.nextLine());
         Produto produto = new Produto(nome, Quantidade, valor);
         produtoDAO produtoDAO = new ProdutoDAO();
         try {
@@ -60,5 +60,49 @@ public class Main {
     System.out.println("\nDigite o ID do produto: ");
     long id = Long.parseLong(sc.nextLine());
     ProdutoDAO produtoDAO = new produtoDAO();
+    try {
+        Produto produto = produtoDAO.buscarprodutoporID(id);
+        if (produto != null) {
+            System.out.println("Produto encontrado: ");
+            System.out.println(produto.nome());
+        } else {
+            System.out.println("Pro não encontrado");
+        } 
+    } catch(Exepction e ){
+        System.err.println(e.getMessage());
     }
+    sc.close();
+    }
+    private static void atualizarProduto(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n### Atualzar Produto ###");
+        System.out.println("Digite o ID do produto que deseja atulizar");
+        Long id = Long.parseLong(sc.nextLine());
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+    try {
+        Produto produtoExistente = produtoDAO.buscarPorId(id);
+        if (ProdutoExistente != null) {
+        System.out.println("Novo nome (atual: "+ produtoExistente.Quantidade() +"):");
+        String nome = sc.nextLine();
+        System.out.println("Nova quantidade (atual: "+ produtoExistente.quantidade()   "): ");
+        int quantidade = Integer.parseInt(sc.nextLine());
+        System.out.println("Novo valor (atual: " + produtoEXistente.valor()+ "): ");
+        Double valor = Double.parseDouble(sc.nextLine());
+        Produto produtoAtualizado = new Produto(id, nome, quantidade, valor); 
+        try {
+            produtoDAO.atualizar(produtoAtualizado);
+            System.out.println("produto atualizado com sucesso!");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        } 
+            else {
+                System.out.println("Produto não encontrado");
+                }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }   
+    sc.close();  
+    
 }
