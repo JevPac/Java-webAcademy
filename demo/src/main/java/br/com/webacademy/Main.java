@@ -1,5 +1,11 @@
 package br.com.webacademy;
+
 import java.util.Scanner;
+import java.util.List;
+
+import br.com.webacademy.produto;
+import br.com.webacademy.produtoDAO;
+import br.com.webacademy.conexao;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,19 +13,20 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         do {
             exibirMenu();
-            opcao = Integer.parseInt( sc.nextLine());
+            opcao = Integer.parseInt(sc.nextLine());
             switch (opcao) {
                 case 0 -> salvarProduto();
-                case 1 -> buscarproduto();
-                case 2 -> buscarprodutoporID();
+                case 1 -> buscarprodutos();
+                case 2 -> buscarprodutoPorID();
                 case 3 -> atualizarProduto();
-                case 4 -> excluirproduto();
+                case 4 -> excluirProduto();
                 case 5 -> System.exit(0);
-            default -> System.out.print("Opção invalida!");
+                default -> System.out.print("Opção invalida!");
 
-            } 
+            }
             sc.close();
-        } while (opcao !=0 ); {
+        } while (opcao != 0);
+        {
         }
     }
 
@@ -35,9 +42,9 @@ public class Main {
 
     }
 
-    //salvar produto
+    // salvar produto
 
-    private static void salvarProduto(){
+    private static void salvarProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n###Criar Novo Produto###");
         System.out.println("Nome:");
@@ -46,57 +53,75 @@ public class Main {
         int Quantidade = Integer.parseInt(sc.nextLine());
         System.out.println("Valor:");
         double valor = Double.parseDouble(sc.nextLine());
-        Produto produto = new Produto(nome, Quantidade, valor);
-        produtoDAO produtoDAO = new ProdutoDAO();
+        produto produto = new produto (nome, Quantidade, valor);
+        produtoDAO produtoDAO = new produtoDAO();
         try {
             produtoDAO.salvar(produto);
             System.out.println("Produto criado com sucesso!");
-        } catch(exeption e) {
+        } catch (Exception e) {
             System.err.print(e.getMessage());
         }
         sc.close();
     }
 
-    //busca por ID do produto
+    private static void buscarprodutos() {
+        System.out.println("\n### buscar todos ###");
+        produtoDAO produtoDAO = new produtoDAO();
+        try {
+            List<produto> produtos = produtoDAO.buscarTodos();
+            if (produtos !=null) {
+                System.out.println("lista de produto: ");
+                for (produto produto : produtos ){
+                    System.out.println("nome: " + produto.nome());
+                }   
+            }else {
+                System.out.println("produto nao encontrado");
+                }
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    // busca por ID do produto
 
-    private static void buscarprodutoporID: {
-    Scanner sc = new Scanner(System.in)
-    System.out.println("\n###Buscar produto por ID###");
+    private static void buscarprodutoPorID() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n###Buscar produto por ID###");
     System.out.println("\nDigite o ID do produto: ");
     long id = Long.parseLong(sc.nextLine());
-    ProdutoDAO produtoDAO = new produtoDAO();
+    produtoDAO produtoDAO = new produtoDAO();
     try {
-        Produto produto = produtoDAO.buscarprodutoporID(id);
+        produto produto = produtoDAO.buscarPorId(id);
         if (produto != null) {
             System.out.println("Produto encontrado: ");
             System.out.println(produto.nome());
         } else {
             System.out.println("Pro não encontrado");
-        } 
-    } catch(Exepction e ){
+        }
+    } catch(Exception e){
         System.err.println(e.getMessage());
     }
     sc.close();
     }
-    
-    //Atulizar produto no codigo
+
+    // Atulizar produto no codigo
 
     private static void atualizarProduto(){
         Scanner sc = new Scanner(System.in);
         System.out.println("\n### Atualzar Produto ###");
         System.out.println("Digite o ID do produto que deseja atulizar");
         Long id = Long.parseLong(sc.nextLine());
-        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO produtoDAO = new produtoDAO();
     try {
-        Produto produtoExistente = produtoDAO.buscarPorId(id);
-        if (ProdutoExistente != null) {
-        System.out.println("Novo nome (atual: "+ produtoExistente.Quantidade() +"):");
+        produto produtoExistente = produtoDAO.buscarPorId(id);
+        if (produtoExistente != null) {
+        System.out.println("Novo nome (atual: "+ produtoExistente.quantidade() +"):");
         String nome = sc.nextLine();
-        System.out.println("Nova quantidade (atual: "+ produtoExistente.quantidade()   "): ");
+        System.out.println("Nova quantidade (atual: "+ produtoExistente.quantidade()  );
         int quantidade = Integer.parseInt(sc.nextLine());
-        System.out.println("Novo valor (atual: " + produtoEXistente.valor()+ "): ");
+        System.out.println("Novo valor (atual: " + produtoExistente.valor()+ "): ");
         Double valor = Double.parseDouble(sc.nextLine());
-        Produto produtoAtualizado = new Produto(id, nome, quantidade, valor); 
+        produto produtoAtualizado = new produto(id, nome, quantidade, valor); 
         try {
             produtoDAO.atualizar(produtoAtualizado);
             System.out.println("produto atualizado com sucesso!");
@@ -114,16 +139,16 @@ public class Main {
     sc.close();  
     }
 
-    //excluir produto
-   
-    private static void excluirProduto(){
+    // excluir produto
+
+    private static void excluirProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n### Exclir Produto ###");
         System.out.println("Digit o ID do produto que deseja exlcuir: ");
         Long id = Long.parseLong(sc.nextLine());
-        ProdutoDAO produtoDAO = new ProdutoDAO();
+       produtoDAO produtoDAO = new produtoDAO();
         try {
-            Produto produtoExistente = ProdutoDAO.buscarPorId(id);
+            produto produtoExistente = produtoDAO.buscarPorId(id);
             if (produtoExistente != null) {
                 produtoDAO.excluir(produtoExistente.id());
                 System.out.println("Produto excluido com sucesso!");
@@ -132,9 +157,9 @@ public class Main {
                 System.out.println("Produto não encontrada");
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage())
+            System.err.println(e.getMessage());
         }
-
+        sc.close();
     }
-    
+
 }
