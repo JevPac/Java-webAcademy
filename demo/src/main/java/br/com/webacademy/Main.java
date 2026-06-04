@@ -47,11 +47,11 @@ public class Main {
     private static void salvarProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n###Criar Novo Produto###");
-        System.out.println("Nome:");
-        String nome = sc.next();
-        System.out.println("Quantidade: ");
+        System.out.print("Nome:");
+        String nome = sc.nextLine();
+        System.out.print("Quantidade: ");
         int Quantidade = Integer.parseInt(sc.nextLine());
-        System.out.println("Valor:");
+        System.out.print("Valor:");
         double valor = Double.parseDouble(sc.nextLine());
         produto produto = new produto (nome, Quantidade, valor);
         produtoDAO produtoDAO = new produtoDAO();
